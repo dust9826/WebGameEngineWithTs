@@ -8,3 +8,9 @@ https://docs.github.com/ko/codespaces/setting-up-your-project-for-codespaces/add
 
 # node.js Tutorial
 
+
+# Setting
+
+npm install express // Express 모듈 설치
+
+npm start // node.js 를 통해 server.js 실행

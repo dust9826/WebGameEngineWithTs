@@ -1,3 +1,4 @@
+import { Logger } from "../Editor/log";
 
 export class Core
 {
@@ -18,9 +19,22 @@ export class Core
   init(canvasId: string)
   { 
     var cvs = document.querySelector(canvasId);
-    this.gl = cvs.getContext('webgpu');
+    if(!(cvs instanceof HTMLCanvasElement))
+    {
+      Logger.logError('Cannot find canvas name ' + canvasId);
+      return false;
+    }
+    
+    this.gl = cvs.getContext('webgl');
+    if(this.gl == null)
+    {
+      Logger.logError('webgl dose not support in this website');
+      return false;
+    }
+
     cvs.style.width = '100vw';
     cvs.style.height = '99vh';
     console.log(this.gl);
+    return true;
   }
 }

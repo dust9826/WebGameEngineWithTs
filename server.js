@@ -13,8 +13,9 @@ const HOST = '0.0.0.0';
 
 // App
 const app = express();
+const wd = '/workspaces/WebGameEngineWithTs/';
 app.get('/', (req, res) => {
-	res.sendFile('/workspaces/WebGameEngineWithTs/index.html');
+	res.sendFile(wd + 'Editor/index.html');
 });
 
 app.listen(PORT, HOST);
