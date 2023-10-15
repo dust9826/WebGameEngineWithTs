@@ -1,4 +1,4 @@
-import { Logger } from "../Editor/log";
+import { Logger } from "./log";
 
 export class Core
 {

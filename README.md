@@ -14,3 +14,7 @@ https://docs.github.com/ko/codespaces/setting-up-your-project-for-codespaces/add
 npm install express // Express 모듈 설치
 
 npm start // node.js 를 통해 server.js 실행
+
+# Todo
+
+common.js 모듈에서 문제 발생. 모듈 추가해야 할 듯

@@ -331,4 +331,7 @@ ASALocalRun/
 
 *.DS_Store
 
+// 3. 특정 '디렉토리' 기준 이하 파일들 제외 방법
+scripts/
+
 out

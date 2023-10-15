@@ -1,5 +1,6 @@
+import { Core } from './core'
 import { Logger } from './log';
-import { Core } from '../Engine/core'
 
 Core.instance.init('#screen');
 
+Logger.log('test log');
