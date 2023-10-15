@@ -1,4 +1,4 @@
-import { Logger } from "./log";
+import { Logger } from "./log.js";
 
 export class Core
 {
@@ -36,5 +36,15 @@ export class Core
     cvs.style.height = '99vh';
     console.log(this.gl);
     return true;
+  }
+
+  update()
+  {
+    
+  }
+
+  render()
+  {
+
   }
 }

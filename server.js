@@ -5,7 +5,7 @@
 
 'use strict';
 
-const express = require('express');
+import express from 'express';
 
 // Constants
 const PORT = 3000;
@@ -13,9 +13,9 @@ const HOST = '0.0.0.0';
 
 // App
 const app = express();
-const wd = '/workspaces/WebGameEngineWithTs/';
+const __dirname = '/workspaces/WebGameEngineWithTs';
 
-app.use('/scripts', express.static(__dirname + '/scripts'));
+app.use('/scripts', express.static(__dirname + '/Engine/scripts'));
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/Engine/index.html');
