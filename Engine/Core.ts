@@ -1,12 +1,7 @@
-import { EObjectType, GameObject } from "./gameobject/GameObject.js";
 import { Logger } from "./Logger.js";
-import { Material } from "./component/Material.js";
-import { Mesh } from "./component/Mesh.js";
-import { Transform } from "./component/Transform.js";
 import { TimeManager } from "./manager/TimeManager.js";
 import { KeyManager } from "./manager/KeyManager.js";
 import { SceneManager } from "./manager/SceneManager.js";
-import { LinkedList } from "./struct.js";
 
 /**
  * 게임 엔진의 초기화 및 주기를 설정해준다.
@@ -26,6 +21,7 @@ export class Core
   private constructor() {}
   
   public gl: WebGLRenderingContext;
+  private intervalID;
   
   /**
    * 게임 엔진을 최초 1회 초기화 한다. 
@@ -63,12 +59,25 @@ export class Core
 
     Logger.log('success to create core');   
     
+    // 윈도우 이벤트 설정
     window.onresize = () => {
       this.resizeCanvasToDisplaySize();
       this.update();
     }
 
-    //window.setInterval(() => this.update(), 100);
+    // 마우스 커서 숨기기
+    document.body.onclick = async (e) => {
+      await document.body.requestPointerLock();
+    };
+
+    document.onpointerlockchange = (e) => {
+      if (document.pointerLockElement === document.body) {
+        this.intervalID = window.setInterval(() => this.update(), 10);
+      }
+      else {
+        window.clearInterval(this.intervalID);
+      }
+    };
     
     return true;
   }
@@ -93,7 +102,9 @@ export class Core
   {
     TimeManager.instance.update();
     KeyManager.instance.update();
-    SceneManager.instance.update();
+    
+    SceneManager.instance.GetCurrentScene().update();
+    
     
     this.render();
   }
@@ -105,7 +116,7 @@ export class Core
   {
     const cvs = this.gl.canvas as HTMLCanvasElement;
     this.gl.viewport(0, 0, cvs.clientWidth, cvs.clientHeight);
-    Logger.logAny(this.gl);
+    SceneManager.instance.GetCurrentScene().render();
   }
 
   /**

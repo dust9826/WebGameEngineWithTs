@@ -1,15 +1,16 @@
 import { EObjectType, GameObject } from "../gameobject/GameObject.js";
+import { LinkedList } from "../struct.js";
 
 export abstract class Scene 
 {
-    private gameObjects: Array<Array<GameObject>>;
+    private gameObjects: Array<LinkedList<GameObject>>;
     
     constructor()
     {
-        this.gameObjects = new Array<Array<GameObject>>;
+        this.gameObjects = new Array<LinkedList<GameObject>>;
         for(let key in EObjectType)
         {
-            this.gameObjects[EObjectType[key]] = new Array<GameObject>();
+            this.gameObjects[EObjectType[key]] = new LinkedList<GameObject>();
         }
     }
 
@@ -17,7 +18,11 @@ export abstract class Scene
     {
         for(let idx in this.gameObjects)
         {
-            console.log(idx);
+            const objs = this.gameObjects[idx].traverse();
+            for(let i in objs)
+            {
+                objs[i].update();
+            }
         }
     }
 
@@ -25,7 +30,11 @@ export abstract class Scene
     {
         for(let idx in this.gameObjects)
         {
-            console.log(idx);
+            const objs = this.gameObjects[idx].traverse();
+            for(let i in objs)
+            {
+                objs[i].render();
+            }
         }
     }
 
@@ -34,7 +43,7 @@ export abstract class Scene
      */
     AddObject(obj: GameObject, objType: EObjectType)
     {
-        this.gameObjects[objType].push(obj);
+        this.gameObjects[objType].insertAtEnd(obj);
     }
 
     abstract Enter(): void 

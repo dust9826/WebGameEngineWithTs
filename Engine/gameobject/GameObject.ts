@@ -10,14 +10,28 @@ export class GameObject {
     private id: number;
     private childs: Array<GameObject>;
     private parent: GameObject;
-    private components: Map<string, Array<Component>>;
+    private components: Map<string, Component>;
 
     constructor() 
     {
         this.id = GameObject.gid++;
         this.childs = new Array<GameObject>();
         this.parent = null;
-        this.components = new Map<string, Array<Component>>();
+        this.components = new Map<string, Component>();
+    }
+
+    update()
+    {
+        for(let key in this.components)
+        {
+            const component: Component = this.components[key];
+            component.Update();
+        }
+    }
+
+    render()
+    {
+
     }
 
     /**
@@ -27,21 +41,8 @@ export class GameObject {
      */
     GetComponent<T extends Component>(className: Constructor<T>) : T
     {
-        const ret: Array<T> = this.components[className.name];
-        if(ret === undefined || ret.length === 0)
-            return null;
-        return ret[0];
-    }
-
-    /**
-     * 오브젝트가 소지한 해당 타입의 컴포넌트를 모두 반환하는 함수
-     * @param className 가져올 컴포넌트의 타입
-     * @returns 해당 컴포넌트 배열 or null
-     */
-    GetComponentAll<T extends Component>(className: Constructor<T>) : Array<T>
-    {
-        const ret: Array<T> = this.components[className.name];
-        if(ret === undefined || ret.length === 0)
+        const ret: T = this.components[className.name];
+        if(ret === undefined)
             return null;
         return ret;
     }
@@ -49,13 +50,17 @@ export class GameObject {
     /**
      * 오브젝트에 특정 타입의 컴포넌트를 추가하는 함수
      * @param component 추가할 컴포넌트
+     * @param className 추가할 컴포넌트의 자료형
      */
-    AddComponent<T extends Component>(className: Constructor<T>, component: Component)
+    AddComponent<T extends Component>(component: Component, className: Constructor<T>)
     {
         const name = className.name;
-        if(this.components[name] === undefined)
-            this.components[name] = new Array<T>;
-        this.components[name].push(component);
+        if(this.components[name] !== undefined)
+        {
+            Logger.error(`${this.id}: this object has same component ${name}`);
+            return;
+        }
+        this.components[name] = component;
     }
 
     SetChild(child: GameObject): void

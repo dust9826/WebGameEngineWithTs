@@ -37,8 +37,6 @@ export class KeyManager extends Manager
     
     update() 
     {
-        console.log(this.arrKeyEvents);
-        console.log(this.arrKeys);
         for(let key in EKeyCode)
         {
             const code = EKeyCode[key];
@@ -69,6 +67,11 @@ export class KeyManager extends Manager
                 keyInfo.prevPush = false;
             }
         }
+    }
+
+    GetKeyState(keyCode: EKeyCode)
+    {
+        return this.arrKeys[keyCode].keyState;
     }
 
     OnKeyDown(e)
@@ -112,20 +115,20 @@ class KeyInfo
     prevPush: boolean;
 }
 
-const EKeyState = 
+export const EKeyState = 
 {
     NONE: 0,
     TAP: 1,
     HOLD: 2,
     AWAY: 3,
 } as const;
-type EKeyState = typeof EKeyState[keyof typeof EKeyState];
+export type EKeyState = typeof EKeyState[keyof typeof EKeyState];
 
-const EKeyCode = 
+export const EKeyCode = 
 {
     Q: 'KeyQ',
     W: 'KeyW',
     E: 'KeyE',
     TAB: 'Tab'
 } as const;
-type EKeyCode = typeof EKeyCode[keyof typeof EKeyCode];
+export type EKeyCode = typeof EKeyCode[keyof typeof EKeyCode];

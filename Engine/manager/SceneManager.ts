@@ -17,18 +17,19 @@ export class SceneManager extends Manager
     private constructor() 
     {
       super();
-      this.arrScene = new Array<Scene>();
+      this.arrScene = new Map<string, Scene>();
       this.curScene = null;
     }
 
-    private arrScene: Array<Scene>;
+    private arrScene: Map<string, Scene>;
     private curScene: Scene;
 
     init() 
     {
-      this.arrScene.push(new MainScene());
+      this.arrScene['MainScene'] = new MainScene();
 
       this.curScene = this.arrScene['MainScene'];
+      this.curScene.Enter();
     }
     
     update() 

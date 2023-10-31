@@ -11,5 +11,6 @@ export class EditorScene extends Scene
         throw new Error("Method not implemented.");
     }
     
-    
+    update() {super.update();}
+    render() {super.render();}
 } 
