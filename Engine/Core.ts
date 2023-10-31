@@ -1,4 +1,4 @@
-import { GameObject } from "./gameobject/GameObject.js";
+import { EObjectType, GameObject } from "./gameobject/GameObject.js";
 import { Logger } from "./Logger.js";
 import { Material } from "./component/Material.js";
 import { Mesh } from "./component/Mesh.js";
@@ -6,6 +6,7 @@ import { Transform } from "./component/Transform.js";
 import { TimeManager } from "./manager/TimeManager.js";
 import { KeyManager } from "./manager/KeyManager.js";
 import { SceneManager } from "./manager/SceneManager.js";
+import { LinkedList } from "./struct.js";
 
 /**
  * 게임 엔진의 초기화 및 주기를 설정해준다.

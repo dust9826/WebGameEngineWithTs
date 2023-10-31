@@ -14,7 +14,7 @@ export class GameObject {
 
     constructor() 
     {
-        this.id = GameObject.gid;
+        this.id = GameObject.gid++;
         this.childs = new Array<GameObject>();
         this.parent = null;
         this.components = new Map<string, Array<Component>>();
@@ -76,6 +76,11 @@ export class GameObject {
     GetParent(): GameObject
     {
         return this.parent;
+    }
+
+    get ID() 
+    {
+        return this.id;
     }
 }
 
