@@ -16,15 +16,19 @@ export class TimeManager extends Manager
     private constructor() 
     {
       super();
+      this.prevTime = new Date();
+      this.startTime = new Date();
       this._deltaTime = 0;
     }
 
     private _deltaTime: number;
     private prevTime: Date;
+    private startTime: Date;
 
     init() 
     {
       this.prevTime = new Date();
+      this.startTime = new Date();
       this._deltaTime = 0;      
     }
 
@@ -33,12 +37,15 @@ export class TimeManager extends Manager
       const curTime: Date = new Date();
       this._deltaTime = curTime.getTime() - this.prevTime.getTime();
       this.prevTime = curTime;
-      
-      Logger.logAny(this.deltaTime);
     }
 
     get deltaTime() : number
     {
-        return this._deltaTime;
+      return this._deltaTime;
+    }
+
+    get accTime() : number
+    {
+      return this.prevTime.getTime() - this.startTime.getTime();
     }
 } 

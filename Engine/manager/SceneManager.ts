@@ -1,3 +1,5 @@
+import { MainScene } from "../scene/MainScene.js";
+import { Scene } from "../scene/Scene.js";
 import { Manager } from "./Manager.js";
 
 export class SceneManager extends Manager
@@ -15,14 +17,39 @@ export class SceneManager extends Manager
     private constructor() 
     {
       super();
+      this.arrScene = new Array<Scene>();
+      this.curScene = null;
     }
 
-    init() {
-        
+    private arrScene: Array<Scene>;
+    private curScene: Scene;
+
+    init() 
+    {
+      this.arrScene.push(new MainScene());
+
+      this.curScene = this.arrScene['MainScene'];
     }
     
-    update() {
-        
+    update() 
+    {
+      
     }
     
+    GetCurrentScene(): Scene
+    {
+      return this.curScene;
+    }
+
+    /**
+     * 
+     * @param sceneName 변경될 씬의 이름
+     */
+    ChangeScene(sceneName: string): void
+    {
+      this.curScene.Exit();
+      this.curScene = this.arrScene[sceneName];
+      this.curScene.Enter();
+    }
 } 
+
