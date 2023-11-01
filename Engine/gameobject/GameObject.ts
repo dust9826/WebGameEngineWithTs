@@ -11,6 +11,7 @@ export class GameObject {
     private childs: Array<GameObject>;
     private parent: GameObject;
     private components: Map<string, Component>;
+    private isDead: boolean;
 
     constructor() 
     {
@@ -83,17 +84,22 @@ export class GameObject {
         return this.parent;
     }
 
+    SetDead(): void
+    {
+        this.isDead = true;
+    }
+
     get ID() 
     {
         return this.id;
     }
 }
 
-export const EObjectType = 
+export const GroupType = 
 {
     TILE: 0,
     PLAYER: 1,
     ENEMY: 2,
     MISSILE: 3,
 } as const;
-export type EObjectType = typeof EObjectType[keyof typeof EObjectType];
+export type GroupType = typeof GroupType[keyof typeof GroupType];

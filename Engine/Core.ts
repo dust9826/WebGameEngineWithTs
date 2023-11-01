@@ -2,6 +2,7 @@ import { Logger } from "./Logger.js";
 import { TimeManager } from "./manager/TimeManager.js";
 import { KeyManager } from "./manager/KeyManager.js";
 import { SceneManager } from "./manager/SceneManager.js";
+import { EventManager } from "./manager/EventManager.js";
 
 /**
  * 게임 엔진의 초기화 및 주기를 설정해준다.
@@ -104,6 +105,8 @@ export class Core
     KeyManager.instance.update();
     
     SceneManager.instance.GetCurrentScene().update();
+
+    EventManager.instance.update();
     
     
     this.render();

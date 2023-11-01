@@ -1,4 +1,4 @@
-import { EObjectType, GameObject } from "../gameobject/GameObject.js";
+import { GroupType, GameObject } from "../gameobject/GameObject.js";
 import { LinkedList } from "../struct.js";
 
 export abstract class Scene 
@@ -8,9 +8,9 @@ export abstract class Scene
     constructor()
     {
         this.gameObjects = new Array<LinkedList<GameObject>>;
-        for(let key in EObjectType)
+        for(let key in GroupType)
         {
-            this.gameObjects[EObjectType[key]] = new LinkedList<GameObject>();
+            this.gameObjects[GroupType[key]] = new LinkedList<GameObject>();
         }
     }
 
@@ -41,9 +41,14 @@ export abstract class Scene
     /**
      * 
      */
-    AddObject(obj: GameObject, objType: EObjectType)
+    AddObject(obj: GameObject, groupType: GroupType)
     {
-        this.gameObjects[objType].insertAtEnd(obj);
+        this.gameObjects[groupType].insertAtEnd(obj);
+    }
+
+    GetObjectByType(groupType: GroupType)
+    {
+        return this.gameObjects[groupType];
     }
 
     abstract Enter(): void 

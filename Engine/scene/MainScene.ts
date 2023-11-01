@@ -1,5 +1,6 @@
 import { PlayerInput } from "../component/PlayerInput.js";
-import { EObjectType, GameObject } from "../gameobject/GameObject.js";
+import { ECreateObject } from "../func.js";
+import { GroupType, GameObject } from "../gameobject/GameObject.js";
 import { Scene } from "./Scene.js";
 
 export class MainScene extends Scene
@@ -8,7 +9,7 @@ export class MainScene extends Scene
     {
         console.log(1);
         const obj = new GameObject();
-        this.AddObject(obj, EObjectType.PLAYER);
+        ECreateObject(obj, GroupType.PLAYER);
         obj.AddComponent(new PlayerInput(), PlayerInput);
     }
     Exit(): void 

@@ -1,4 +1,3 @@
-import { Logger } from "../Logger.js";
 import { Manager } from "./Manager.js";
 
 export class KeyManager extends Manager
@@ -25,10 +24,10 @@ export class KeyManager extends Manager
 
     init() 
     {
-        for (let key in EKeyCode) 
+        for (let key in KeyCode) 
         {
-            this.arrKeys[EKeyCode[key]] = new KeyInfo();
-            this.arrKeyEvents[EKeyCode[key]] = false;
+            this.arrKeys[KeyCode[key]] = new KeyInfo();
+            this.arrKeyEvents[KeyCode[key]] = false;
         }
         // 윈도우 이벤트와 연결
         window.onkeydown = this.OnKeyDown;
@@ -37,20 +36,20 @@ export class KeyManager extends Manager
     
     update() 
     {
-        for(let key in EKeyCode)
+        for(let key in KeyCode)
         {
-            const code = EKeyCode[key];
+            const code = KeyCode[key];
             const keyInfo: KeyInfo = this.arrKeys[code];
             
             if(this.arrKeyEvents[code])
             {
                 if(keyInfo.prevPush)
                 {
-                    keyInfo.keyState = EKeyState.HOLD;
+                    keyInfo.keyState = KeyState.HOLD;
                 }
                 else
                 {
-                    keyInfo.keyState = EKeyState.TAP;
+                    keyInfo.keyState = KeyState.TAP;
                 }
                 keyInfo.prevPush = true;
             }
@@ -58,18 +57,18 @@ export class KeyManager extends Manager
             {
                 if(keyInfo.prevPush)
                 {
-                    keyInfo.keyState = EKeyState.AWAY;
+                    keyInfo.keyState = KeyState.AWAY;
                 }
                 else
                 {
-                    keyInfo.keyState = EKeyState.NONE;
+                    keyInfo.keyState = KeyState.NONE;
                 }
                 keyInfo.prevPush = false;
             }
         }
     }
 
-    GetKeyState(keyCode: EKeyCode)
+    GetKeyState(keyCode: KeyCode)
     {
         return this.arrKeys[keyCode].keyState;
     }
@@ -79,7 +78,7 @@ export class KeyManager extends Manager
         const code: string = e.code;
         const arrKeys: Map<string, boolean> = KeyManager.instance.arrKeyEvents;
 
-        if(code === EKeyCode.TAB)
+        if(code === KeyCode.TAB)
         {
             e.preventDefault();
         }
@@ -108,27 +107,27 @@ class KeyInfo
 {
     constructor()
     {
-        this.keyState = EKeyState.AWAY;
+        this.keyState = KeyState.AWAY;
         this.prevPush = false;
     }
-    keyState: EKeyState;
+    keyState: KeyState;
     prevPush: boolean;
 }
 
-export const EKeyState = 
+export const KeyState = 
 {
     NONE: 0,
     TAP: 1,
     HOLD: 2,
     AWAY: 3,
 } as const;
-export type EKeyState = typeof EKeyState[keyof typeof EKeyState];
+export type KeyState = typeof KeyState[keyof typeof KeyState];
 
-export const EKeyCode = 
+export const KeyCode = 
 {
     Q: 'KeyQ',
     W: 'KeyW',
     E: 'KeyE',
     TAB: 'Tab'
 } as const;
-export type EKeyCode = typeof EKeyCode[keyof typeof EKeyCode];
+export type KeyCode = typeof KeyCode[keyof typeof KeyCode];
