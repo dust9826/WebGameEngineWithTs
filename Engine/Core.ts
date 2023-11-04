@@ -3,6 +3,8 @@ import { TimeManager } from "./manager/TimeManager.js";
 import { KeyManager } from "./manager/KeyManager.js";
 import { SceneManager } from "./manager/SceneManager.js";
 import { EventManager } from "./manager/EventManager.js";
+import { SimpleRenderer } from "./renderer/SimpleRenderer.js";
+import { RendererManager } from "./manager/RendererManager.js";
 
 /**
  * 게임 엔진의 초기화 및 주기를 설정해준다.
@@ -79,6 +81,11 @@ export class Core
         window.clearInterval(this.intervalID);
       }
     };
+
+    // 최초 1회 실행하기
+    window.setTimeout(() => this.update(), 100);
+
+    this.resizeCanvasToDisplaySize();
     
     return true;
   }
@@ -92,6 +99,7 @@ export class Core
     TimeManager.instance.init();
     KeyManager.instance.init();
     SceneManager.instance.init();
+    RendererManager.instance.init();
 
     return true;
   }
@@ -119,6 +127,10 @@ export class Core
   {
     const cvs = this.gl.canvas as HTMLCanvasElement;
     this.gl.viewport(0, 0, cvs.clientWidth, cvs.clientHeight);
+    this.gl.clearColor(0, 0, 0, 0);
+    this.gl.enable(this.gl.DEPTH_TEST);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
     SceneManager.instance.GetCurrentScene().render();
   }
 
@@ -145,5 +157,10 @@ export class Core
     }
    
     return needResize;
+  }
+
+  get webglContext()
+  {
+    return this.gl;
   }
 }

@@ -1,4 +1,8 @@
+import { Renderer } from "../renderer/Renderer.js";
+import { SimpleRenderer } from "../renderer/SimpleRenderer.js";
 import { Manager } from "./Manager.js";
+
+type Constructor<T> = { new (...args: any[]): T };
 
 export class RendererManager extends Manager
 {
@@ -15,12 +19,37 @@ export class RendererManager extends Manager
     private constructor() 
     {
       super();
+      this.mapRenderer = new Map<string, Renderer> 
     }
-    
+    private mapRenderer: Map<string, Renderer>
+    private gl: WebGLRenderingContext;
+
+    CreateRenderer<T extends Renderer>(gl: WebGLRenderingContext, className: Constructor<T>) : T
+    {
+      const name = className.name;
+      if(this.mapRenderer[name])
+      {
+        throw className.name + " already created.";
+      }
+      const renderer = new className(gl);
+      this.mapRenderer[name] = renderer;
+      renderer.init();
+      return renderer;
+    }
+
+    FindRenderer<T extends Renderer>(className: Constructor<T>) : T
+    {
+      var ret: T = this.mapRenderer[className.name];
+      if(!ret)
+      {
+        throw className.name + " dose not created.";
+      }
+      return ret;
+    }
 
     init() 
     {
-        
+      
     }
 
     update()

@@ -1,10 +1,45 @@
 
-export class Vec2 
+export class Vec2
 {
     
 } 
 
+export class Vec3
+{
+    
+} 
 
+export class Vec4
+{
+    private arr: Array<number>;
+    get x(): number { return this.arr[0]; }
+    set x(v: number) { this.arr[0] = v; }
+    get y(): number { return this.arr[1]; }
+    set y(v: number) { this.arr[1] = v; }
+    get z(): number { return this.arr[2]; }
+    set z(v: number) { this.arr[2] = v; }
+    get w(): number { return this.arr[3]; }
+    set w(v: number) { this.arr[3] = v; }
+    constructor() {}
+
+} 
+
+export class Matrix3x3
+{
+    static translation(tx: number, ty: number): Array<number>
+    {
+        return [
+            1, 0, 0,
+            0, 1, 0,
+            tx, ty, 1,
+        ]
+    }
+}
+
+export class Matrix4x4
+{
+
+}
 
 /**
  * LinkedList 구현을 위한 노드

@@ -1,5 +1,6 @@
 import { Logger } from "../Logger.js";
 import { Component } from "../component/Component.js";
+import { Renderer } from "../renderer/Renderer.js";
 
 type Constructor<T> = { new (...args: any[]): T };
 /**
@@ -12,6 +13,8 @@ export class GameObject {
     private parent: GameObject;
     private components: Map<string, Component>;
     private isDead: boolean;
+    // 렌더링 부분 수정 필요
+    private renderer: Renderer;
 
     constructor() 
     {
@@ -19,6 +22,7 @@ export class GameObject {
         this.childs = new Array<GameObject>();
         this.parent = null;
         this.components = new Map<string, Component>();
+        this.renderer = null;
     }
 
     update()
@@ -32,7 +36,10 @@ export class GameObject {
 
     render()
     {
-
+        if(this.renderer !== null)
+        {
+            this.renderer.render(this);   
+        }
     }
 
     /**
@@ -87,6 +94,11 @@ export class GameObject {
     SetDead(): void
     {
         this.isDead = true;
+    }
+
+    SetRenderer(renderer: Renderer)
+    {
+        this.renderer = renderer;
     }
 
     get ID() 

@@ -26,3 +26,8 @@ export function EChangeScene(sceneName: string): void
     event.lParam = sceneName;
     EventManager.instance.AddEvent(event);
 }
+
+export function DegreeToRadians(degree: number): number
+{
+    return degree * Math.PI / 180;
+}
