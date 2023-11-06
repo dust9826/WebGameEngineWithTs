@@ -5,6 +5,7 @@ import { GameObject } from "../gameobject/GameObject.js";
 import { Transform } from "../component/Transform.js";
 import { Mesh } from "../component/Mesh.js";
 import { Material } from "../component/Material.js";
+import { Matrix4x4, Vec4 } from "../struct.js";
 
 export class SimpleRenderer extends Renderer 
 {
@@ -14,7 +15,7 @@ export class SimpleRenderer extends Renderer
   }
 
   private position: CWebGLAttribute;
-  private resolution: WebGLUniformLocation;
+  private matrix: WebGLUniformLocation;
   private color: WebGLUniformLocation;
 
   init()
@@ -32,9 +33,9 @@ export class SimpleRenderer extends Renderer
     gl.bindBuffer(gl.ARRAY_BUFFER, this.position.buffer);
     
     gl.enableVertexAttribArray(this.position.location);
-    gl.vertexAttribPointer(this.position.location, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(this.position.location, 3, gl.FLOAT, false, 0, 0);
 
-    this.resolution = gl.getUniformLocation(this.program, "u_resolution");
+    this.matrix = gl.getUniformLocation(this.program, "u_matrix");
     this.color = gl.getUniformLocation(this.program, "u_color");
   }
 
@@ -42,6 +43,13 @@ export class SimpleRenderer extends Renderer
   {
     this.gl.useProgram(this.program);
     console.log("draw obj:" + obj);
+    
+    const fieldOfView = 60;
+    const aspect = this.gl.canvas.width / this.gl.canvas.height;
+    const zNear = 1;
+    const zFar = 100;
+    const projectionMatrix = Matrix4x4.perspective(fieldOfView, aspect, zNear, zFar);
+    console.log(this.gl);
     this.drawObject(obj);
   }
 
@@ -53,28 +61,34 @@ export class SimpleRenderer extends Renderer
     const material = obj.GetComponent(Material);
     if(!transform || !mesh || !material)
     {
-      //return;
+      return;
     }
+    
+    const positions = mesh.poly;
+    const color = material.albedo.v;
 
-    console.log(gl);
-    console.log(this.position);
-    // 임시
-    // 2D 포인트 3개
-    var positions = [
-      100, 200,
-      800, 200,
-      100, 300,
-      100, 300,
-      800, 200,
-      800, 300,
-    ];
+    const fieldOfView = 60;
+    const aspect = this.gl.canvas.width / this.gl.canvas.height;
+    const zNear = 1;
+    const zFar = 100;
+    const v4 = new Vec4([1, 1, 0, 1]);
+    var projectionMatrix = Matrix4x4.perspective(fieldOfView, aspect, zNear, zFar);
+    projectionMatrix = Matrix4x4.projection(this.gl.canvas.width, this.gl.canvas.height, 100);
+    console.log(v4.copy().mulM(projectionMatrix));
+    console.log(projectionMatrix.m);
+    console.log(transform.getLocalMatrix());
+    projectionMatrix.multiply(transform.getLocalMatrix());
+    console.log(projectionMatrix.m);
+    console.log(v4.copy().mulM(projectionMatrix));
+    console.log(transform);
+    console.log(positions);
+    
     gl.bindBuffer(gl.ARRAY_BUFFER, this.position.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.uniformMatrix4fv(this.matrix, false, projectionMatrix.inverse().m);
+    gl.uniform4fv(this.color, color);
 
-    gl.uniform2f(this.resolution, gl.canvas.width, gl.canvas.height);
-    gl.uniform4fv(this.color, [1,0,0.5,1]);
-
-    gl.drawArrays(gl.TRIANGLES, 0, positions.length / 2);
+    gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);
   }
 } 
 

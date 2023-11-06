@@ -3,8 +3,8 @@ import { TimeManager } from "./manager/TimeManager.js";
 import { KeyManager } from "./manager/KeyManager.js";
 import { SceneManager } from "./manager/SceneManager.js";
 import { EventManager } from "./manager/EventManager.js";
-import { SimpleRenderer } from "./renderer/SimpleRenderer.js";
 import { RendererManager } from "./manager/RendererManager.js";
+import { Matrix4x4, Vec4 } from "./struct.js";
 
 /**
  * 게임 엔진의 초기화 및 주기를 설정해준다.
@@ -100,7 +100,15 @@ export class Core
     KeyManager.instance.init();
     SceneManager.instance.init();
     RendererManager.instance.init();
-
+  
+    // const m1 = Matrix4x4.zRotation(90);
+    // const m2 = Matrix4x4.translation(2, 3, 1);
+    // console.log(m2);
+    // const m3 = m1.copy().multiply(m2);
+    // const v = new Vec4([1, 1, 0, 1]);
+    // console.log(m3);
+    // console.log(v.copy().mulM(m3));
+    // console.log(v.copy().mulM(m2));
     return true;
   }
 
