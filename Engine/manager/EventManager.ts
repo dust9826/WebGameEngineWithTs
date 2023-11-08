@@ -1,4 +1,4 @@
-import { GameObject, GroupType } from "../gameobject/GameObject.js";
+import { GameObject, GroupType } from "../gameobject/gameobject.js";
 import { Manager } from "./Manager.js";
 import { SceneManager } from "./SceneManager.js";
 

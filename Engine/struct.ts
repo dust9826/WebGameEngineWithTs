@@ -59,6 +59,7 @@ export class Vec3
         }
         return this;
     }
+
 } 
 
 export class Vec4
@@ -115,6 +116,15 @@ export class Vec4
                 ret += this.arr[j] * m4.m[i + j * 4];
             }
             this.arr[i] = ret;
+        }
+        return this;
+    }
+    
+    n()
+    {
+        for(let i=0; i<4; i++)
+        {
+            this.arr[i] = this.arr[i] / this.arr[3];
         }
         return this;
     }
@@ -191,10 +201,10 @@ export class Matrix4x4
     static translation(tx: number, ty: number, tz: number): Matrix4x4
     {
         return new Matrix4x4([
-            1, 0, 0, tx,
-            0, 1, 0, ty,
-            0, 0, 1, tz,
-            0, 0, 0, 1
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            tx, ty, tz, 1
         ]);
     }
     static translationV(arr: Array<number>): Matrix4x4 
@@ -212,8 +222,8 @@ export class Matrix4x4
         const s = Math.sin(radian);
         return new Matrix4x4([
             1, 0, 0, 0,
-            0, c, -s, 0,
-            0, s, c, 0,
+            0, c, s, 0,
+            0, -s, c, 0,
             0, 0, 0, 1
         ]);
     }
@@ -224,9 +234,9 @@ export class Matrix4x4
         const c = Math.cos(radian);
         const s = Math.sin(radian);
         return new Matrix4x4([
-            c, 0, s, 0,
+            c, 0, -s, 0,
             0, 1, 0, 0,
-            -s, 0, c, 0,
+            s, 0, c, 0,
             0, 0, 0, 1
         ]);
     }
@@ -237,8 +247,8 @@ export class Matrix4x4
         const c = Math.cos(radian);
         const s = Math.sin(radian);
         return new Matrix4x4([
-            c, -s, 0, 0,
-            s, c, 0, 0,
+            c, s, 0, 0,
+            -s, c, 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1
         ]);
@@ -283,7 +293,7 @@ export class Matrix4x4
      * @param depth 깊이 z
      * @returns 3D 직교 투영 행렬
      */
-    static projection(width: number, height: number, depth: number): Matrix4x4
+    static orthographic(width: number, height: number, depth: number): Matrix4x4
     {
         return new Matrix4x4([
             2 / width, 0, 0, 0,
@@ -309,8 +319,8 @@ export class Matrix4x4
         return new Matrix4x4([
             f / aspect, 0, 0, 0,
             0, f, 0, 0,
-            0, 0, (near + far) * rangeInv, near * far * rangeInv,
-            0, 0, -1, 0
+            0, 0, (near + far) * rangeInv, 1,
+            0, 0, -near * far * rangeInv, 0
         ]);
     }
 
@@ -341,7 +351,7 @@ export class Matrix4x4
         return m4;
     }
 
-    inverse(): Matrix4x4
+    transpose(): Matrix4x4
     {
         const arr = new Array<number>(16);
         for(let i=0; i<4; ++i)
@@ -352,6 +362,98 @@ export class Matrix4x4
             }
         }
         this.arr = arr;
+        return this;
+    }
+
+    // https://github.com/gfxfundamentals/webgl-fundamentals/blob/master/webgl/resources/m4.js
+    /**
+     * 역행렬로 변환하는 함수
+     */
+    inverse(): Matrix4x4
+    {
+        const dst = new Array<number>(16);
+        var m00 = this.arr[0 * 4 + 0];
+        var m01 = this.arr[0 * 4 + 1];
+        var m02 = this.arr[0 * 4 + 2];
+        var m03 = this.arr[0 * 4 + 3];
+        var m10 = this.arr[1 * 4 + 0];
+        var m11 = this.arr[1 * 4 + 1];
+        var m12 = this.arr[1 * 4 + 2];
+        var m13 = this.arr[1 * 4 + 3];
+        var m20 = this.arr[2 * 4 + 0];
+        var m21 = this.arr[2 * 4 + 1];
+        var m22 = this.arr[2 * 4 + 2];
+        var m23 = this.arr[2 * 4 + 3];
+        var m30 = this.arr[3 * 4 + 0];
+        var m31 = this.arr[3 * 4 + 1];
+        var m32 = this.arr[3 * 4 + 2];
+        var m33 = this.arr[3 * 4 + 3];
+        var tmp_0  = m22 * m33;
+        var tmp_1  = m32 * m23;
+        var tmp_2  = m12 * m33;
+        var tmp_3  = m32 * m13;
+        var tmp_4  = m12 * m23;
+        var tmp_5  = m22 * m13;
+        var tmp_6  = m02 * m33;
+        var tmp_7  = m32 * m03;
+        var tmp_8  = m02 * m23;
+        var tmp_9  = m22 * m03;
+        var tmp_10 = m02 * m13;
+        var tmp_11 = m12 * m03;
+        var tmp_12 = m20 * m31;
+        var tmp_13 = m30 * m21;
+        var tmp_14 = m10 * m31;
+        var tmp_15 = m30 * m11;
+        var tmp_16 = m10 * m21;
+        var tmp_17 = m20 * m11;
+        var tmp_18 = m00 * m31;
+        var tmp_19 = m30 * m01;
+        var tmp_20 = m00 * m21;
+        var tmp_21 = m20 * m01;
+        var tmp_22 = m00 * m11;
+        var tmp_23 = m10 * m01;
+
+        var t0 = (tmp_0 * m11 + tmp_3 * m21 + tmp_4 * m31) -
+            (tmp_1 * m11 + tmp_2 * m21 + tmp_5 * m31);
+        var t1 = (tmp_1 * m01 + tmp_6 * m21 + tmp_9 * m31) -
+            (tmp_0 * m01 + tmp_7 * m21 + tmp_8 * m31);
+        var t2 = (tmp_2 * m01 + tmp_7 * m11 + tmp_10 * m31) -
+            (tmp_3 * m01 + tmp_6 * m11 + tmp_11 * m31);
+        var t3 = (tmp_5 * m01 + tmp_8 * m11 + tmp_11 * m21) -
+            (tmp_4 * m01 + tmp_9 * m11 + tmp_10 * m21);
+
+        var d = 1.0 / (m00 * t0 + m10 * t1 + m20 * t2 + m30 * t3);
+
+        dst[0] = d * t0;
+        dst[1] = d * t1;
+        dst[2] = d * t2;
+        dst[3] = d * t3;
+        dst[4] = d * ((tmp_1 * m10 + tmp_2 * m20 + tmp_5 * m30) -
+            (tmp_0 * m10 + tmp_3 * m20 + tmp_4 * m30));
+        dst[5] = d * ((tmp_0 * m00 + tmp_7 * m20 + tmp_8 * m30) -
+            (tmp_1 * m00 + tmp_6 * m20 + tmp_9 * m30));
+        dst[6] = d * ((tmp_3 * m00 + tmp_6 * m10 + tmp_11 * m30) -
+            (tmp_2 * m00 + tmp_7 * m10 + tmp_10 * m30));
+        dst[7] = d * ((tmp_4 * m00 + tmp_9 * m10 + tmp_10 * m20) -
+            (tmp_5 * m00 + tmp_8 * m10 + tmp_11 * m20));
+        dst[8] = d * ((tmp_12 * m13 + tmp_15 * m23 + tmp_16 * m33) -
+            (tmp_13 * m13 + tmp_14 * m23 + tmp_17 * m33));
+        dst[9] = d * ((tmp_13 * m03 + tmp_18 * m23 + tmp_21 * m33) -
+            (tmp_12 * m03 + tmp_19 * m23 + tmp_20 * m33));
+        dst[10] = d * ((tmp_14 * m03 + tmp_19 * m13 + tmp_22 * m33) -
+            (tmp_15 * m03 + tmp_18 * m13 + tmp_23 * m33));
+        dst[11] = d * ((tmp_17 * m03 + tmp_20 * m13 + tmp_23 * m23) -
+            (tmp_16 * m03 + tmp_21 * m13 + tmp_22 * m23));
+        dst[12] = d * ((tmp_14 * m22 + tmp_17 * m32 + tmp_13 * m12) -
+            (tmp_16 * m32 + tmp_12 * m12 + tmp_15 * m22));
+        dst[13] = d * ((tmp_20 * m32 + tmp_12 * m02 + tmp_19 * m22) -
+            (tmp_18 * m22 + tmp_21 * m32 + tmp_13 * m02));
+        dst[14] = d * ((tmp_18 * m12 + tmp_23 * m32 + tmp_15 * m02) -
+            (tmp_22 * m32 + tmp_14 * m02 + tmp_19 * m12));
+        dst[15] = d * ((tmp_22 * m22 + tmp_16 * m02 + tmp_21 * m12) -
+            (tmp_20 * m12 + tmp_23 * m22 + tmp_17 * m02));
+
+        this.arr = dst;
         return this;
     }
 }

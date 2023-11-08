@@ -1,9 +1,10 @@
-import { GroupType, GameObject } from "../gameobject/GameObject.js";
+import { GroupType, GameObject } from "../gameobject/gameobject.js";
 import { LinkedList } from "../struct.js";
 
 export abstract class Scene 
 {
     private gameObjects: Array<LinkedList<GameObject>>;
+    private _mainCamera: GameObject;
     
     constructor()
     {
@@ -50,6 +51,9 @@ export abstract class Scene
     {
         return this.gameObjects[groupType];
     }
+
+    get mainCamera(): GameObject { return this._mainCamera; }
+    set mainCamera(camera: GameObject) { this._mainCamera = camera; }
 
     abstract Enter(): void 
     abstract Exit(): void

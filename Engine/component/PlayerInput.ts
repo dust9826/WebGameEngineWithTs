@@ -1,5 +1,8 @@
+import { KeyHold } from "../func.js";
 import { KeyCode, KeyState, KeyManager } from "../manager/KeyManager.js";
+import { SceneManager } from "../manager/SceneManager.js";
 import { Component } from "./Component.js";
+import { Transform } from "./Transform.js";
 
 /**
  * 
@@ -7,13 +10,31 @@ import { Component } from "./Component.js";
 export class PlayerInput extends Component
 {
     Update(): void {
-        if(KeyManager.instance.GetKeyState(KeyCode.Q) === KeyState.TAP)
+        const transform = this.gameobject.GetComponent(Transform);
+        const cameraTransform = SceneManager.instance.GetCurrentScene().mainCamera.GetComponent(Transform);
+        if(KeyHold(KeyCode.Q))
         {
-            console.log("hi im t");
+            cameraTransform.position.z -= 0.05;
         }
-        if(KeyManager.instance.GetKeyState(KeyCode.Q) === KeyState.HOLD)
+        if(KeyHold(KeyCode.W))
         {
-            console.log("hi im t holding");
+            cameraTransform.position.z += 0.05;
+        }
+        if(KeyHold(KeyCode.A))
+        {
+            transform.rotation.z += 0.5;
+        }
+        if(KeyHold(KeyCode.S))
+        {
+            transform.rotation.z -= 0.5;
+        }
+        if(KeyHold(KeyCode.E))
+        {
+            transform.scale.x -= 1;
+        }
+        if(KeyHold(KeyCode.R))
+        {
+            transform.scale.x += 1;
         }
     }
 }

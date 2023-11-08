@@ -69,6 +69,7 @@ export class GameObject {
             return;
         }
         this.components[name] = component;
+        component.gameobject = this;
     }
 
     SetChild(child: GameObject): void
@@ -113,5 +114,6 @@ export const GroupType =
     PLAYER: 1,
     ENEMY: 2,
     MISSILE: 3,
+    CAMERA: 4,
 } as const;
 export type GroupType = typeof GroupType[keyof typeof GroupType];

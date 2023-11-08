@@ -1,7 +1,7 @@
 import { Material } from "../component/Material.js";
 import { Mesh } from "../component/Mesh.js";
 import { Transform } from "../component/Transform.js";
-import { GameObject } from "../gameobject/GameObject.js";
+import { GameObject } from "../gameobject/gameobject.js";
 import { WebGLUtils } from "../module/webglutils.js";
 
 

@@ -1,8 +1,9 @@
 import { Material } from "./component/Material.js";
 import { Mesh } from "./component/Mesh.js";
 import { Transform } from "./component/Transform.js";
-import { GameObject, GroupType } from "./gameobject/GameObject.js";
+import { GameObject, GroupType } from "./gameobject/gameobject.js";
 import { Event, EventManager, EventType } from "./manager/EventManager.js";
+import { KeyCode, KeyManager, KeyState } from "./manager/KeyManager.js";
 import { ModelCreator } from "./module/modelCreator.js";
 
 export function ECreateObject(obj: GameObject, group: GroupType): void
@@ -31,21 +32,24 @@ export function EChangeScene(sceneName: string): void
     EventManager.instance.AddEvent(event);
 }
 
+export function KeyTap(code: KeyCode): boolean
+{
+    return KeyManager.instance.GetKeyState(code) === KeyState.TAP;
+}
+export function KeyHold(code: KeyCode): boolean
+{
+    return KeyManager.instance.GetKeyState(code) === KeyState.HOLD;
+}
+export function KeyAway(code: KeyCode): boolean
+{
+    return KeyManager.instance.GetKeyState(code) === KeyState.AWAY;
+}
+export function KeyNone(code: KeyCode): boolean
+{
+    return KeyManager.instance.GetKeyState(code) === KeyState.NONE;
+}
+
 export function DegreeToRadians(degree: number): number
 {
     return degree * Math.PI / 180;
-}
-
-export function InstantiateBox(): GameObject
-{
-    const obj = new GameObject();
-    const transform = new Transform();
-    const mesh = new Mesh();
-    const material = new Material();
-    obj.AddComponent(transform, Transform);
-    obj.AddComponent(mesh, Mesh);
-    obj.AddComponent(material, Material);
-    material.albedo.y = 0;
-    mesh.poly = ModelCreator.getSquare();
-    return obj;
 }

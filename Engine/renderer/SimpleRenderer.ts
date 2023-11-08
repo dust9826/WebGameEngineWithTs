@@ -1,11 +1,13 @@
 import { Renderer } from "./Renderer.js";
 import { simple_fragment_shader, simple_vertex_shader } from "../shader/shader.js";
 import { WebGLUtils } from "../module/webglutils.js";
-import { GameObject } from "../gameobject/GameObject.js";
+import { GameObject } from "../gameobject/gameobject.js";
 import { Transform } from "../component/Transform.js";
 import { Mesh } from "../component/Mesh.js";
 import { Material } from "../component/Material.js";
 import { Matrix4x4, Vec4 } from "../struct.js";
+import { Camera, OrthographicCamera } from "../component/Camera.js";
+import { SceneManager } from "../manager/SceneManager.js";
 
 export class SimpleRenderer extends Renderer 
 {
@@ -42,14 +44,12 @@ export class SimpleRenderer extends Renderer
   render(obj: GameObject): void 
   {
     this.gl.useProgram(this.program);
-    console.log("draw obj:" + obj);
     
     const fieldOfView = 60;
     const aspect = this.gl.canvas.width / this.gl.canvas.height;
     const zNear = 1;
     const zFar = 100;
     const projectionMatrix = Matrix4x4.perspective(fieldOfView, aspect, zNear, zFar);
-    console.log(this.gl);
     this.drawObject(obj);
   }
 
@@ -67,25 +67,16 @@ export class SimpleRenderer extends Renderer
     const positions = mesh.poly;
     const color = material.albedo.v;
 
-    const fieldOfView = 60;
-    const aspect = this.gl.canvas.width / this.gl.canvas.height;
-    const zNear = 1;
-    const zFar = 100;
-    const v4 = new Vec4([1, 1, 0, 1]);
-    var projectionMatrix = Matrix4x4.perspective(fieldOfView, aspect, zNear, zFar);
-    projectionMatrix = Matrix4x4.projection(this.gl.canvas.width, this.gl.canvas.height, 100);
-    console.log(v4.copy().mulM(projectionMatrix));
-    console.log(projectionMatrix.m);
-    console.log(transform.getLocalMatrix());
-    projectionMatrix.multiply(transform.getLocalMatrix());
-    console.log(projectionMatrix.m);
-    console.log(v4.copy().mulM(projectionMatrix));
-    console.log(transform);
-    console.log(positions);
-    
+    const camera = SceneManager.instance.GetCurrentScene().mainCamera.GetComponent(Camera)
+    const projM = camera.getProjectionMatrix();
+    const viewM = camera.getViewMatrix();
+    const objM = transform.getLocalMatrix();
+    const matrix = objM.copy().multiply(viewM);
+    matrix.multiply(projM);
+
     gl.bindBuffer(gl.ARRAY_BUFFER, this.position.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-    gl.uniformMatrix4fv(this.matrix, false, projectionMatrix.inverse().m);
+    gl.uniformMatrix4fv(this.matrix, false, matrix.transpose().m);
     gl.uniform4fv(this.color, color);
 
     gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);

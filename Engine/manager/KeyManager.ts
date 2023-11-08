@@ -128,6 +128,11 @@ export const KeyCode =
     Q: 'KeyQ',
     W: 'KeyW',
     E: 'KeyE',
+    R: 'KeyR',
+    A: 'KeyA',
+    S: 'KeyS',
+    D: 'KeyD',
+    F: 'KeyF',
     TAB: 'Tab'
 } as const;
 export type KeyCode = typeof KeyCode[keyof typeof KeyCode];
