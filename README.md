@@ -22,3 +22,8 @@ tsc -w // 실시간 컴파일
 # Todo
 
 common.js 모듈에서 문제 발생. 모듈 추가해야 할 듯
+
+Camera Component 수정 필요
+Camera 내부에서 Perspective, Orthograpich 설정 가능하도록 (UNITY 느낌)
+Camera 회전 구현
+마우스 인풋 구현
