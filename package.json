@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec node server.js --delay 2"
+    "start": "nodemon --exec node server.js --delay 2",
+    "start_editor": "nodemon --exec node server_editor.js --delay 2"
   },
   "keywords": [],
   "author": "",

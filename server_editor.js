@@ -18,7 +18,7 @@ const __dirname = '/workspaces/WebGameEngineWithTs';
 app.use('/scripts', express.static(__dirname + '/scripts'));
 
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/Engine/index.html');
+	res.sendFile(__dirname + '/Editor/index.html');
 });
 
 app.listen(PORT, HOST);

@@ -3,6 +3,6 @@
   {     
     "target": "es6",
     "experimentalDecorators": true,
-    "outDir": "Engine/scripts",
+    "outDir": "scripts",
   } 
 }
