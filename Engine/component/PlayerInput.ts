@@ -1,6 +1,7 @@
 import { KeyHold } from "../func.js";
 import { KeyCode, KeyState, KeyManager } from "../manager/KeyManager.js";
 import { SceneManager } from "../manager/SceneManager.js";
+import { Matrix4x4, Vec3 } from "../struct.js";
 import { Component } from "./Component.js";
 import { Transform } from "./Transform.js";
 
@@ -36,6 +37,12 @@ export class PlayerInput extends Component
         {
             transform.scale.x += 1;
         }
+
+        const mouseMovement = KeyManager.instance.GetMouseMovement();
+        mouseMovement.mul(0.1);
+        transform.rotation.sum(new Vec3([mouseMovement.x, mouseMovement.y]));
+        //cameraTransform.rotation.sum(new Vec3([mouseMovement.y, mouseMovement.x, 0]));
+        console.log(transform.rotation.v);
     }
 }
   

@@ -1,3 +1,28 @@
 
-const a = 10;
-console.log(a);
+var isDrawing: boolean = false;
+
+var canvas = document.querySelector('canvas'),
+c = canvas.getContext('2d');
+c.fillStyle = 'hotpink'; 
+
+function draw(x, y) 
+{
+    if (isDrawing) 
+    {
+        c.beginPath();
+        c.arc(x, y, 10, 0, Math.PI*2);
+        c.closePath();
+        c.fill();
+    }
+}
+
+canvas.addEventListener('mousemove', event =>
+  draw(event.offsetX, event.offsetY)
+);
+canvas.addEventListener('mousedown', () => isDrawing = true);
+canvas.addEventListener('mouseup', () => isDrawing = false);
+
+document.querySelector('a').addEventListener('click', event => {
+    if(event.target instanceof HTMLAnchorElement)
+        event.target.href = canvas.toDataURL()
+});

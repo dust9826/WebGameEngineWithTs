@@ -1,3 +1,5 @@
+import { Core } from "../Core.js";
+import { Vec2 } from "../struct.js";
 import { Manager } from "./Manager.js";
 
 export class KeyManager extends Manager
@@ -17,10 +19,16 @@ export class KeyManager extends Manager
       super();
       this.arrKeys = new Map<string, KeyInfo>();
       this.arrKeyEvents = new Map<string, boolean>();
+      this.mouseMovement = Vec2.zero();
+      this.mouseMovementAcc = Vec2.zero();
+      this.mousePosition = Vec2.zero();
     }
 
     private arrKeys: Map<string, KeyInfo>
     private arrKeyEvents: Map<string, boolean>
+    private mouseMovement: Vec2;
+    private mouseMovementAcc: Vec2;
+    private mousePosition: Vec2;
 
     init() 
     {
@@ -32,6 +40,7 @@ export class KeyManager extends Manager
         // 윈도우 이벤트와 연결
         window.onkeydown = this.OnKeyDown;
         window.onkeyup = this.OnKeyUp;
+        window.onmousemove = this.OnMouseMove;
     }
     
     update() 
@@ -66,11 +75,25 @@ export class KeyManager extends Manager
                 keyInfo.prevPush = false;
             }
         }
+        
+        this.mouseMovement.set(this.mouseMovementAcc.v);
+        this.mouseMovementAcc.set([0, 0]);
     }
 
     GetKeyState(keyCode: KeyCode)
     {
         return this.arrKeys[keyCode].keyState;
+    }
+
+    public GetMouseMovement(): Vec2
+    {
+        return this.mouseMovement;
+    }
+
+    public SetMouseMiddle()
+    {
+        const gl = Core.instance.gl;
+        this.mousePosition = new Vec2([gl.canvas.width, gl.canvas.height]).mul(0.5);
     }
 
     OnKeyDown(e)
@@ -100,6 +123,23 @@ export class KeyManager extends Manager
         {
             arrKeys[code] = false;
         }
+    }
+
+    OnMouseMove(e)
+    {
+        const mouseMovementAcc = KeyManager.instance.mouseMovementAcc;
+        mouseMovementAcc.x += e.movementX;
+        mouseMovementAcc.y += e.movementY;
+    }
+
+    OnMouseDown(e)
+    {
+        console.log(e)
+    }
+
+    OnMouseUp(e)
+    {
+        console.log(e)
     }
 } 
 

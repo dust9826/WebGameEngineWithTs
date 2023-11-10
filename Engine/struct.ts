@@ -18,6 +18,33 @@ export class Vec2
 
     static zero(): Vec2 { return new Vec2([]); }
     static one(): Vec2 { return new Vec2([1, 1]); }
+    
+    set(v: Array<number>): Vec2
+    {
+        for(let i=0; i<2; i++)
+        {
+            this.arr[i] = v[i] !== undefined ? v[i] : this.arr[i];
+        }
+        return this;
+    }
+
+    mul(f: number): Vec2
+    {
+        for(let i=0; i<2; i++)
+        {
+            this.arr[i] = this.arr[i] * f;
+        }
+        return this;
+    }
+
+    sum(v2: Vec2): Vec2
+    {
+        for(let i=0; i<2; i++)
+        {
+            this.arr[i] += v2.v[i];
+        }
+        return this;
+    }
 } 
 
 export class Vec3
@@ -60,6 +87,22 @@ export class Vec3
         return this;
     }
 
+    sum(v3: Vec3): Vec3
+    {
+        for(let i=0; i<3; i++)
+        {
+            this.arr[i] += v3.v[i];
+        }
+        return this;
+    }
+
+    mul4x4(m4: Matrix4x4): Vec3
+    {
+        const v4 = new Vec4(this.v);
+        v4.mulM(m4);
+        this.set(v4.v);
+        return this;
+    }
 } 
 
 export class Vec4
@@ -104,6 +147,24 @@ export class Vec4
             v4.arr[i] = this.arr[i];
         }
         return v4;
+    }
+
+    mul(f: number): Vec4
+    {
+        for(let i=0; i<4; i++)
+        {
+            this.arr[i] = this.arr[i] * f;
+        }
+        return this;
+    }
+
+    sum(v4: Vec4): Vec4
+    {
+        for(let i=0; i<4; i++)
+        {
+            this.arr[i] += v4.v[i];
+        }
+        return this;
     }
 
     mulM(m4: Matrix4x4): Vec4

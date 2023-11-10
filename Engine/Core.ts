@@ -76,6 +76,7 @@ export class Core
     document.onpointerlockchange = (e) => {
       if (document.pointerLockElement === document.body) {
         this.intervalID = window.setInterval(() => this.update(), 10);
+        KeyManager.instance.SetMouseMiddle();
       }
       else {
         window.clearInterval(this.intervalID);

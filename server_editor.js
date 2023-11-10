@@ -8,13 +8,14 @@
 import express from 'express';
 
 // Constants
-const PORT = 3000;
+const PORT = 3001;
 const HOST = '0.0.0.0';
 
 // App
 const app = express();
 const __dirname = '/workspaces/WebGameEngineWithTs';
 
+app.use('/css', express.static(__dirname + '/Editor/css'));
 app.use('/scripts', express.static(__dirname + '/scripts'));
 
 app.get('/', (req, res) => {
