@@ -16,10 +16,15 @@ const app = express();
 const __dirname = '/workspaces/WebGameEngineWithTs';
 
 app.use('/css', express.static(__dirname + '/Editor/css'));
+app.use('/Blog/css', express.static(__dirname + '/Blog/css'));
 app.use('/scripts', express.static(__dirname + '/scripts'));
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/Editor/index.html');
+});
+
+app.get('/blog', (req, res) => {
+	res.sendFile(__dirname + '/Blog/index.html');
 });
 
 app.listen(PORT, HOST);

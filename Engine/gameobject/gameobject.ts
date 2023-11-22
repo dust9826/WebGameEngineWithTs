@@ -16,6 +16,8 @@ export class GameObject {
     // 렌더링 부분 수정 필요
     private renderer: Renderer;
 
+    public name: string;
+
     constructor() 
     {
         this.id = GameObject.gid++;
@@ -40,6 +42,9 @@ export class GameObject {
         {
             this.renderer.render(this);   
         }
+        this.childs.forEach((child) => {
+            child.render();
+        })
     }
 
     /**
@@ -72,7 +77,7 @@ export class GameObject {
         component.gameobject = this;
     }
 
-    SetChild(child: GameObject): void
+    AddChild(child: GameObject): void
     {
         this.childs.push(child);
     }

@@ -4,6 +4,7 @@ import { Transform } from "./component/Transform.js";
 import { GameObject, GroupType } from "./gameobject/gameobject.js";
 import { Event, EventManager, EventType } from "./manager/EventManager.js";
 import { KeyCode, KeyManager, KeyState } from "./manager/KeyManager.js";
+import { TimeManager } from "./manager/TimeManager.js";
 import { ModelCreator } from "./module/modelCreator.js";
 
 export function ECreateObject(obj: GameObject, group: GroupType): void
@@ -52,4 +53,9 @@ export function KeyNone(code: KeyCode): boolean
 export function DegreeToRadians(degree: number): number
 {
     return degree * Math.PI / 180;
+}
+
+export function DT(): number
+{
+    return TimeManager.instance.deltaTime;
 }

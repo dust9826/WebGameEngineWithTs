@@ -66,7 +66,7 @@ export class SimpleRenderer extends Renderer
     
     const positions = mesh.poly;
     const color = material.albedo.v;
-
+    
     const camera = SceneManager.instance.GetCurrentScene().mainCamera.GetComponent(Camera)
     const projM = camera.getProjectionMatrix();
     const viewM = camera.getViewMatrix();

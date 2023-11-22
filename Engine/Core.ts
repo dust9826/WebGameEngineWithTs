@@ -137,7 +137,6 @@ export class Core
     const cvs = this.gl.canvas as HTMLCanvasElement;
     this.gl.viewport(0, 0, cvs.clientWidth, cvs.clientHeight);
     this.gl.clearColor(0, 0, 0, 0);
-    this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
     SceneManager.instance.GetCurrentScene().render();

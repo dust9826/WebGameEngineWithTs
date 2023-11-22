@@ -3,7 +3,7 @@ import { PlayerInput } from "../component/PlayerInput.js";
 import { Transform } from "../component/Transform.js";
 import { ECreateObject } from "../func.js";
 import { GroupType, GameObject } from "../gameobject/gameobject.js";
-import { InstantiateBox, InstantiateCamera } from "../gameobject/instantiate.js";
+import { InstantiateBox, InstantiateCamera, InstantiateCoord, InstantiateEmpty } from "../gameobject/instantiate.js";
 import { RendererManager } from "../manager/RendererManager.js";
 import { SimpleRenderer } from "../renderer/SimpleRenderer.js";
 import { Scene } from "./Scene.js";
@@ -14,11 +14,18 @@ export class MainScene extends Scene
     {
         this.initRenderer();
         console.log(1);
-        const obj = InstantiateBox();
-        ECreateObject(obj, GroupType.PLAYER);
+        const obj = InstantiateEmpty();
         //obj.GetComponent(Transform).scale.mul(100);
         obj.AddComponent(new PlayerInput(), PlayerInput);
-        obj.SetRenderer(RendererManager.instance.FindRenderer(SimpleRenderer));
+        ECreateObject(obj, GroupType.PLAYER);
+
+        //const coord = InstantiateCoord();
+        //ECreateObject(coord, GroupType.PLAYER);
+
+        const c1 = InstantiateBox();
+        ECreateObject(c1, GroupType.PLAYER);
+        const c2 = InstantiateBox();
+        ECreateObject(c2, GroupType.PLAYER);
 
         this.mainCamera = InstantiateCamera();
         ECreateObject(this.mainCamera, GroupType.CAMERA);

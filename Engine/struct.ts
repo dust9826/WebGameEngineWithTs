@@ -73,7 +73,7 @@ export class Vec3
     {
         for(let i=0; i<3; i++)
         {
-            this.arr[i] = v[i] ? v[i] : 0;
+            this.arr[i] = v[i] !== undefined ? v[i] : this.arr[i];
         }
         return this;
     }
@@ -134,7 +134,7 @@ export class Vec4
     {
         for(let i=0; i<4; i++)
         {
-            this.arr[i] = v[i] ? v[i] : this.arr[i];
+            this.arr[i] = v[i] !== undefined ? v[i] : this.arr[i];
         }
         return this;
     }
@@ -317,9 +317,10 @@ export class Matrix4x4
 
     static rotation(rx: number, ry: number, rz: number): Matrix4x4
     {
-        var ret = Matrix4x4.zRotation(rz);
+        var ret = Matrix4x4.identity();
+        ret.multiply(Matrix4x4.zRotation(rz));
         ret.multiply(Matrix4x4.yRotation(ry));
-        ret.multiply(Matrix4x4.yRotation(rx));
+        ret.multiply(Matrix4x4.xRotation(rx));
         return ret;
     }
     static rotationV(arr: Array<number>): Matrix4x4 
@@ -380,8 +381,8 @@ export class Matrix4x4
         return new Matrix4x4([
             f / aspect, 0, 0, 0,
             0, f, 0, 0,
-            0, 0, (near + far) * rangeInv, 1,
-            0, 0, -near * far * rangeInv, 0
+            0, 0, -(near + far) * rangeInv, 1,
+            0, 0, near * far * rangeInv, 0
         ]);
     }
 

@@ -29,6 +29,8 @@ export class KeyManager extends Manager
     private mouseMovement: Vec2;
     private mouseMovementAcc: Vec2;
     private mousePosition: Vec2;
+    private mouseInfo: KeyInfo;
+    private mouseDown: boolean;
 
     init() 
     {
@@ -37,10 +39,13 @@ export class KeyManager extends Manager
             this.arrKeys[KeyCode[key]] = new KeyInfo();
             this.arrKeyEvents[KeyCode[key]] = false;
         }
+        this.mouseInfo = new KeyInfo;
         // 윈도우 이벤트와 연결
         window.onkeydown = this.OnKeyDown;
         window.onkeyup = this.OnKeyUp;
         window.onmousemove = this.OnMouseMove;
+        window.onmousedown = this.OnMouseDown;
+        window.onmouseup = this.OnMouseUp;
     }
     
     update() 
@@ -76,13 +81,43 @@ export class KeyManager extends Manager
             }
         }
         
+        if(this.mouseDown)
+        {
+            if(this.mouseInfo.prevPush)
+            {
+                this.mouseInfo.keyState = KeyState.HOLD;
+            }
+            else
+            {
+                this.mouseInfo.keyState = KeyState.TAP;
+            }
+            this.mouseInfo.prevPush = true;
+        }
+        else
+        {
+            if(this.mouseInfo.prevPush)
+            {
+                this.mouseInfo.keyState = KeyState.AWAY;
+            }
+            else
+            {
+                this.mouseInfo.keyState = KeyState.NONE;
+            }
+            this.mouseInfo.prevPush = false;
+        }
+        
         this.mouseMovement.set(this.mouseMovementAcc.v);
         this.mouseMovementAcc.set([0, 0]);
     }
 
-    GetKeyState(keyCode: KeyCode)
+    GetKeyState(keyCode: KeyCode): KeyState
     {
         return this.arrKeys[keyCode].keyState;
+    }
+
+    GetMouseState(): KeyState
+    {
+        return this.mouseInfo.keyState;
     }
 
     public GetMouseMovement(): Vec2
@@ -134,12 +169,12 @@ export class KeyManager extends Manager
 
     OnMouseDown(e)
     {
-        console.log(e)
+        KeyManager.instance.mouseDown = true;
     }
 
     OnMouseUp(e)
     {
-        console.log(e)
+        KeyManager.instance.mouseDown = false;
     }
 } 
 

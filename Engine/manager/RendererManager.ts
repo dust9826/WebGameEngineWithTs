@@ -1,3 +1,4 @@
+import { Core } from "../Core.js";
 import { Renderer } from "../renderer/Renderer.js";
 import { SimpleRenderer } from "../renderer/SimpleRenderer.js";
 import { Manager } from "./Manager.js";
@@ -22,7 +23,6 @@ export class RendererManager extends Manager
       this.mapRenderer = new Map<string, Renderer> 
     }
     private mapRenderer: Map<string, Renderer>
-    private gl: WebGLRenderingContext;
 
     CreateRenderer<T extends Renderer>(gl: WebGLRenderingContext, className: Constructor<T>) : T
     {
@@ -49,7 +49,10 @@ export class RendererManager extends Manager
 
     init() 
     {
-      
+      const gl = Core.instance.gl;
+      gl.enable(gl.DEPTH_TEST);
+      gl.enable(gl.CULL_FACE);
+      gl.cullFace(gl.FRONT);
     }
 
     update()
