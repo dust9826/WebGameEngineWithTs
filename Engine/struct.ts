@@ -169,6 +169,7 @@ export class Vec4
 
     mulM(m4: Matrix4x4): Vec4
     {
+        const v = new Array<number>(4);
         for(let i=0; i<4; i++)
         {
             var ret: number = 0;
@@ -176,8 +177,9 @@ export class Vec4
             {
                 ret += this.arr[j] * m4.m[i + j * 4];
             }
-            this.arr[i] = ret;
+            v[i] = ret;
         }
+        this.set(v);
         return this;
     }
     
@@ -318,9 +320,9 @@ export class Matrix4x4
     static rotation(rx: number, ry: number, rz: number): Matrix4x4
     {
         var ret = Matrix4x4.identity();
-        ret.multiply(Matrix4x4.zRotation(rz));
-        ret.multiply(Matrix4x4.yRotation(ry));
         ret.multiply(Matrix4x4.xRotation(rx));
+        ret.multiply(Matrix4x4.yRotation(ry));
+        ret.multiply(Matrix4x4.zRotation(rz));
         return ret;
     }
     static rotationV(arr: Array<number>): Matrix4x4 
@@ -381,8 +383,8 @@ export class Matrix4x4
         return new Matrix4x4([
             f / aspect, 0, 0, 0,
             0, f, 0, 0,
-            0, 0, -(near + far) * rangeInv, 1,
-            0, 0, near * far * rangeInv, 0
+            0, 0, (near + far) * rangeInv, -1,
+            0, 0, near * far * rangeInv * 2, 0
         ]);
     }
 

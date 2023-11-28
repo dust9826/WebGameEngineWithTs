@@ -41,8 +41,9 @@ export class PerspectiveCamera extends Camera
         const gl = Core.instance.gl;
         this.fieldOfView = 60;
         this.aspect = gl.canvas.width / gl.canvas.height;
-        this.zNear = 1;
+        this.zNear = 0.1;
         this.zFar = 100;
+        this.Update();
     }
     
     Update(): void 
@@ -73,7 +74,8 @@ export class OrthographicCamera extends Camera
     constructor() 
     {
         super();
-        this.depth = 10;
+        this.depth = 100;
+        this.Update();
     }
 
     Update(): void 

@@ -24,8 +24,8 @@ export class MainScene extends Scene
 
         const c1 = InstantiateBox();
         ECreateObject(c1, GroupType.PLAYER);
-        const c2 = InstantiateBox();
-        ECreateObject(c2, GroupType.PLAYER);
+        //const c2 = InstantiateBox();
+        //ECreateObject(c2, GroupType.PLAYER);
 
         this.mainCamera = InstantiateCamera();
         ECreateObject(this.mainCamera, GroupType.CAMERA);

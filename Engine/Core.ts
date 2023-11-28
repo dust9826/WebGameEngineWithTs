@@ -85,6 +85,7 @@ export class Core
 
     // 최초 1회 실행하기
     window.setTimeout(() => this.update(), 100);
+    window.setTimeout(() => this.update(), 200);
 
     this.resizeCanvasToDisplaySize();
     

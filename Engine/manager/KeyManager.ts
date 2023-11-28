@@ -140,7 +140,7 @@ export class KeyManager extends Manager
         {
             e.preventDefault();
         }
-
+        
         // 키 배열 갱신
         if(arrKeys[code] !== undefined)
         {
@@ -208,6 +208,8 @@ export const KeyCode =
     S: 'KeyS',
     D: 'KeyD',
     F: 'KeyF',
-    TAB: 'Tab'
+    TAB: 'Tab',
+    LSHIFT: 'ShiftLeft',
+    SPACE: 'Space',
 } as const;
 export type KeyCode = typeof KeyCode[keyof typeof KeyCode];

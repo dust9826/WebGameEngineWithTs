@@ -45,11 +45,6 @@ export class SimpleRenderer extends Renderer
   {
     this.gl.useProgram(this.program);
     
-    const fieldOfView = 60;
-    const aspect = this.gl.canvas.width / this.gl.canvas.height;
-    const zNear = 1;
-    const zFar = 100;
-    const projectionMatrix = Matrix4x4.perspective(fieldOfView, aspect, zNear, zFar);
     this.drawObject(obj);
   }
 
