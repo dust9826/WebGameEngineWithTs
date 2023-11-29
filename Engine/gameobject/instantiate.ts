@@ -27,7 +27,7 @@ export function InstantiateBox(): GameObject
     obj.SetRenderer(RendererManager.instance.FindRenderer(SimpleRenderer));
     obj.name = "BOX";
     material.albedo.y = 0;
-    transform.scale.mul(1);
+    transform.scale.mul(3);
     mesh.poly = ModelCreator.getCube();
     return obj;
 }
@@ -36,8 +36,8 @@ export function InstantiateCamera(): GameObject
 {
     const obj = new GameObject();
     const transform = new Transform();
-    transform.position.z = 10;
-    transform.scale.z = 1;
+    //transform.position.z = 10;
+    //transform.scale.z = 1;
     const camera: Camera = new PerspectiveCamera();
     obj.AddComponent(transform, Transform);
     obj.AddComponent(camera, Camera);

@@ -1,4 +1,5 @@
 import { Core } from "../Core.js";
+import { Material } from "../component/Material.js";
 import { PlayerInput } from "../component/PlayerInput.js";
 import { Transform } from "../component/Transform.js";
 import { ECreateObject } from "../func.js";
@@ -23,9 +24,14 @@ export class MainScene extends Scene
         //ECreateObject(coord, GroupType.PLAYER);
 
         const c1 = InstantiateBox();
+        c1.GetComponent(Transform).position.z = 10;
+        c1.GetComponent(Material).albedo.x = 0;
         ECreateObject(c1, GroupType.PLAYER);
-        //const c2 = InstantiateBox();
-        //ECreateObject(c2, GroupType.PLAYER);
+
+        const c2 = InstantiateBox();
+        c2.GetComponent(Transform).position.z = -10;
+        c2.GetComponent(Material).albedo.z = 0;
+        ECreateObject(c2, GroupType.PLAYER);
 
         this.mainCamera = InstantiateCamera();
         ECreateObject(this.mainCamera, GroupType.CAMERA);

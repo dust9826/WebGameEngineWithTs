@@ -41,8 +41,8 @@ export class PerspectiveCamera extends Camera
         const gl = Core.instance.gl;
         this.fieldOfView = 60;
         this.aspect = gl.canvas.width / gl.canvas.height;
-        this.zNear = 0.1;
-        this.zFar = 100;
+        this.zNear = 1;
+        this.zFar = 31;
         this.Update();
     }
     

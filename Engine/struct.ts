@@ -383,7 +383,7 @@ export class Matrix4x4
         return new Matrix4x4([
             f / aspect, 0, 0, 0,
             0, f, 0, 0,
-            0, 0, (near + far) * rangeInv, -1,
+            0, 0, -(near + far) * rangeInv, 1,
             0, 0, near * far * rangeInv * 2, 0
         ]);
     }

@@ -5,9 +5,10 @@ import { GameObject } from "../gameobject/gameobject.js";
 import { Transform } from "../component/Transform.js";
 import { Mesh } from "../component/Mesh.js";
 import { Material } from "../component/Material.js";
-import { Matrix4x4, Vec4 } from "../struct.js";
+import { Matrix4x4, Vec3, Vec4 } from "../struct.js";
 import { Camera, OrthographicCamera } from "../component/Camera.js";
 import { SceneManager } from "../manager/SceneManager.js";
+import { ModelCreator } from "../module/modelCreator.js";
 
 export class SimpleRenderer extends Renderer 
 {
@@ -18,7 +19,7 @@ export class SimpleRenderer extends Renderer
 
   private position: CWebGLAttribute;
   private matrix: WebGLUniformLocation;
-  private color: WebGLUniformLocation;
+  private color: CWebGLAttribute;
 
   init()
   {
@@ -36,9 +37,18 @@ export class SimpleRenderer extends Renderer
     
     gl.enableVertexAttribArray(this.position.location);
     gl.vertexAttribPointer(this.position.location, 3, gl.FLOAT, false, 0, 0);
+    
+    this.color = {
+        location: gl.getAttribLocation(this.program, "a_color"),
+        buffer: gl.createBuffer(),
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.color.buffer);
+    
+    gl.enableVertexAttribArray(this.color.location);
+    gl.vertexAttribPointer(this.color.location, 3, gl.FLOAT, false, 0, 0);
 
     this.matrix = gl.getUniformLocation(this.program, "u_matrix");
-    this.color = gl.getUniformLocation(this.program, "u_color");
+    //this.color = gl.getUniformLocation(this.program, "u_color");
   }
 
   render(obj: GameObject): void 
@@ -69,10 +79,19 @@ export class SimpleRenderer extends Renderer
     const matrix = objM.copy().multiply(viewM);
     matrix.multiply(projM);
 
+    const v1 = new Vec4([-4, 4, 10, 1]);
+    const v2 = new Vec4([4, 4, 10, 1]);
+    v1.mulM(projM);
+    v2.mulM(projM);
+    console.log(v1.v);
+    console.log(v2.v);
+
     gl.bindBuffer(gl.ARRAY_BUFFER, this.position.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.color.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(ModelCreator.getCubeColor()), gl.STATIC_DRAW);
     gl.uniformMatrix4fv(this.matrix, false, matrix.transpose().m);
-    gl.uniform4fv(this.color, color);
+    //gl.uniform4fv(this.color, color);
 
     gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);
   }

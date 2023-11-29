@@ -52,7 +52,7 @@ export class RendererManager extends Manager
       const gl = Core.instance.gl;
       gl.enable(gl.DEPTH_TEST);
       gl.enable(gl.CULL_FACE);
-      gl.cullFace(gl.FRONT);
+      gl.cullFace(gl.BACK);
     }
 
     update()

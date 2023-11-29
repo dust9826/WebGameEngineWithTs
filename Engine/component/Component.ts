@@ -9,4 +9,5 @@ export abstract class Component {
     set gameobject(obj: GameObject) { this._gameobject = obj; }
     Start() {}
     Update() {}
+    LateUpdate() {}
 }

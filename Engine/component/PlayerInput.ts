@@ -17,11 +17,11 @@ export class PlayerInput extends Component
         
         if(KeyHold(KeyCode.W))
         {
-            dir.z += -1;
+            dir.z += 1;
         }
         if(KeyHold(KeyCode.S))
         {
-            dir.z -= -1;
+            dir.z -= 1;
         }
         if(KeyHold(KeyCode.A))
         {
@@ -47,7 +47,7 @@ export class PlayerInput extends Component
         const mouseMovement = KeyManager.instance.GetMouseMovement();
         mouseMovement.mul(0.1);
         
-        cameraTransform.rotation.sum(new Vec3([-mouseMovement.y, -mouseMovement.x, 0]));
+        cameraTransform.rotation.sum(new Vec3([mouseMovement.y, mouseMovement.x, 0]));
     }
 
     cameraTransform(dir: Vec3)
