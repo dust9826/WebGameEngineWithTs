@@ -47,7 +47,7 @@ export class PlayerInput extends Component
         const mouseMovement = KeyManager.instance.GetMouseMovement();
         mouseMovement.mul(0.1);
         
-        cameraTransform.rotation.sum(new Vec3([mouseMovement.y, mouseMovement.x, 0]));
+        //cameraTransform.rotation.sum(new Vec3([mouseMovement.y, mouseMovement.x, 0]));
     }
 
     cameraTransform(dir: Vec3)
@@ -57,7 +57,7 @@ export class PlayerInput extends Component
         const c = Math.cos(y);
         const s = Math.sin(y);
         const m = new Vec3([c * dir.x + s * dir.z, dir.y, - s * dir.x + c * dir.z ]);
-        cameraTransform.position.sum(m.mul(DT() * 0.01));
+        cameraTransform.position.sum(m.mul(DT() * 0.1));
     }
 }
   

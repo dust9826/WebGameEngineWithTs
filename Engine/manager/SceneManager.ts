@@ -1,5 +1,6 @@
 import { MainScene } from "../scene/MainScene.js";
 import { Scene } from "../scene/Scene.js";
+import { SpriteScene } from "../scene/SpriteScene.js";
 import { Manager } from "./Manager.js";
 
 export class SceneManager extends Manager
@@ -27,8 +28,9 @@ export class SceneManager extends Manager
     init() 
     {
       this.arrScene['MainScene'] = new MainScene();
+      this.arrScene['SpriteScene'] = new SpriteScene();
 
-      this.curScene = this.arrScene['MainScene'];
+      this.curScene = this.arrScene['SpriteScene'];
       this.curScene.Enter();
     }
     

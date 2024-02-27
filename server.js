@@ -16,6 +16,7 @@ const app = express();
 const __dirname = '/workspaces/WebGameEngineWithTs';
 
 app.use('/css', express.static(__dirname + '/Engine/css'));
+app.use('/image', express.static(__dirname + '/Engine/image'));
 app.use('/scripts', express.static(__dirname + '/scripts'));
 
 app.get('/', (req, res) => {

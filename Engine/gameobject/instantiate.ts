@@ -1,10 +1,12 @@
 import { Camera, OrthographicCamera, PerspectiveCamera } from "../component/Camera.js";
 import { Material } from "../component/Material.js";
 import { Mesh } from "../component/Mesh.js";
+import { Sprite } from "../component/Sprite.js";
 import { Transform } from "../component/Transform.js";
 import { RendererManager } from "../manager/RendererManager.js";
 import { ModelCreator } from "../module/modelCreator.js";
 import { SimpleRenderer } from "../renderer/SimpleRenderer.js";
+import { SpriteRenderer } from "../renderer/SpriteRenderer.js";
 import { GameObject } from "./gameobject.js";
 
 export function InstantiateEmpty(): GameObject
@@ -38,7 +40,8 @@ export function InstantiateCamera(): GameObject
     const transform = new Transform();
     //transform.position.z = 10;
     //transform.scale.z = 1;
-    const camera: Camera = new PerspectiveCamera();
+    //const camera: Camera = new PerspectiveCamera();
+    const camera: Camera = new OrthographicCamera();
     obj.AddComponent(transform, Transform);
     obj.AddComponent(camera, Camera);
     obj.name = "CAMERA";
@@ -61,5 +64,24 @@ export function InstantiateCoord(): GameObject
     obj.AddChild(y);
     obj.AddChild(z);
     obj.name = "COORD";
+    return obj;
+}
+
+export function InstantiateSprite(): GameObject
+{
+    const obj = new GameObject();
+    const transform = new Transform();
+    const mesh = new Mesh();
+    const material = new Material();
+    const sprite = new Sprite();
+    obj.AddComponent(transform, Transform);
+    obj.AddComponent(mesh, Mesh);
+    obj.AddComponent(material, Material);
+    obj.AddComponent(sprite, Sprite);
+    obj.SetRenderer(RendererManager.instance.FindRenderer(SpriteRenderer));
+    obj.name = "SPRITE";
+    material.albedo.y = 0;
+    transform.scale.mul(100);
+    mesh.poly = ModelCreator.getSquare();
     return obj;
 }

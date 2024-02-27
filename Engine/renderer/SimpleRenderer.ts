@@ -1,4 +1,4 @@
-import { Renderer } from "./Renderer.js";
+import { CWebGLAttribute, Renderer } from "./Renderer.js";
 import { simple_fragment_shader, simple_vertex_shader } from "../shader/shader.js";
 import { WebGLUtils } from "../module/webglutils.js";
 import { GameObject } from "../gameobject/gameobject.js";
@@ -96,9 +96,3 @@ export class SimpleRenderer extends Renderer
     gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);
   }
 } 
-
-class CWebGLAttribute
-{
-    location: number;
-    buffer: WebGLBuffer;
-}

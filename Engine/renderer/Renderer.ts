@@ -27,3 +27,9 @@ export abstract class Renderer
 
   }
 } 
+
+export class CWebGLAttribute
+{
+    location: number;
+    buffer: WebGLBuffer;
+}

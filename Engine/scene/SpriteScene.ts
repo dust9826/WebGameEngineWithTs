@@ -1,16 +1,15 @@
 import { Core } from "../Core.js";
 import { Material } from "../component/Material.js";
 import { PlayerInput } from "../component/PlayerInput.js";
-import { Sprite } from "../component/Sprite.js";
 import { Transform } from "../component/Transform.js";
 import { ECreateObject } from "../func.js";
-import { GroupType, GameObject } from "../gameobject/gameobject.js";
-import { InstantiateBox, InstantiateCamera, InstantiateCoord, InstantiateEmpty } from "../gameobject/instantiate.js";
+import { GroupType } from "../gameobject/gameobject.js";
+import { InstantiateCamera, InstantiateEmpty, InstantiateSprite } from "../gameobject/instantiate.js";
 import { RendererManager } from "../manager/RendererManager.js";
-import { SimpleRenderer } from "../renderer/SimpleRenderer.js";
+import { SpriteRenderer } from "../renderer/SpriteRenderer.js";
 import { Scene } from "./Scene.js";
 
-export class MainScene extends Scene
+export class SpriteScene extends Scene
 {
     Enter(): void 
     {
@@ -24,21 +23,26 @@ export class MainScene extends Scene
         //const coord = InstantiateCoord();
         //ECreateObject(coord, GroupType.PLAYER);
 
-        const c1 = InstantiateBox();
+        const c1 = InstantiateSprite();
         c1.GetComponent(Transform).position.z = 10;
         c1.GetComponent(Material).albedo.x = 0;
         ECreateObject(c1, GroupType.PLAYER);
 
-        // const c2 = InstantiateBox();
-        // c2.GetComponent(Transform).position.z = -10;
-        // c2.GetComponent(Material).albedo.z = 0;
-        // ECreateObject(c2, GroupType.PLAYER);
+        const sz = 5;
+        for(let x=0; x<sz; ++x)
+        {
+            for(let y=0; y<sz; ++y)
+            {
+                const tmp = InstantiateSprite();
+                tmp.GetComponent(Transform).position.x = x * 100;
+                tmp.GetComponent(Transform).position.y = y * 100;
+                ECreateObject(tmp, GroupType.PLAYER);
+            }
+        }
 
         this.mainCamera = InstantiateCamera();
         ECreateObject(this.mainCamera, GroupType.CAMERA);
 
-        const sprite = new Sprite();
-        
     }
     
     Exit(): void 
@@ -49,6 +53,9 @@ export class MainScene extends Scene
     initRenderer()
     {
         const gl = Core.instance.gl;
-        RendererManager.instance.CreateRenderer(gl, SimpleRenderer);
+        RendererManager.instance.CreateRenderer(gl, SpriteRenderer);
     }
+    
+    update() {super.update();}
+    render() {super.render();}
 } 
