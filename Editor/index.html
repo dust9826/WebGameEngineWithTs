@@ -6,16 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>TypeScript234</title>
-  
+
   <link rel="stylesheet" href="./css/style.css" type="text/css">
   <script src="./scripts/Editor/main.js" type="module"></script>
+  <script src="./scripts/Editor/modal.js" type="module"></script>
 </head>
-
 <body>
-  <p>마우스 드래그로 그림을 그려보세요.
-    <a href="" download="my_painting.png">다운로드</a>
-  </p>
-  
-  <canvas width="300" height="300"></canvas>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
+  <br>
+  <canvas id="screen"></canvas>
 </body>
 </html>
