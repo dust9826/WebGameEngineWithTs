@@ -20,6 +20,7 @@ export class SpriteRenderer extends Renderer
     private matrix: WebGLUniformLocation;
     private texture: WebGLTexture;
     private texCoord: CWebGLAttribute;
+    private indexBuffer: WebGLBuffer;
   
     init()
     {
@@ -47,6 +48,8 @@ export class SpriteRenderer extends Renderer
       gl.enableVertexAttribArray(this.texCoord.location);
       gl.vertexAttribPointer(this.texCoord.location, 2, gl.FLOAT, false, 0, 0);
   
+      this.indexBuffer = gl.createBuffer();
+
       this.matrix = gl.getUniformLocation(this.program, "u_matrix");
       //this.color = gl.getUniformLocation(this.program, "u_color");
 
@@ -78,9 +81,10 @@ export class SpriteRenderer extends Renderer
         return;
       }
       
-      const positions = mesh.poly;
+      const positions: Array<number> = mesh.poly;
       const texCoord: Array<number>  = sprite.texCoord;
       const image: HTMLImageElement = sprite.source;
+      const indices = mesh.indices16;
       
       const camera = SceneManager.instance.GetCurrentScene().mainCamera.GetComponent(Camera)
       const projM = camera.getProjectionMatrix();
@@ -90,13 +94,15 @@ export class SpriteRenderer extends Renderer
       matrix.multiply(projM);
   
       gl.bindBuffer(gl.ARRAY_BUFFER, this.position.buffer);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+      gl.bufferData(gl.ARRAY_BUFFER, mesh.poly32, gl.STATIC_DRAW);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.texCoord.buffer);
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoord), gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
       gl.uniformMatrix4fv(this.matrix, false, matrix.transpose().m);
       //gl.uniform4fv(this.color, color);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
   
-      gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);
+      gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
     }
 }

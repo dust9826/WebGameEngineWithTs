@@ -8,6 +8,7 @@ import { Component } from "./Component.js";
 export class Sprite extends Component
 {
     private _texCoord: Array<number>;
+    public texCoord32: Float32Array;
     private _source: HTMLImageElement;
     private _isReady: boolean;
     constructor() 
@@ -20,13 +21,15 @@ export class Sprite extends Component
             0.0,  0.0,
             1.0,  0.0,
             0.0,  1.0,
-            0.0,  1.0,
-            1.0,  0.0,
             1.0,  1.0];
 
     }
     get texCoord(): Array<number> { return this._texCoord; }
-    set texCoord(v: Array<number>) { this._texCoord = v; }
+    set texCoord(v: Array<number>) 
+    { 
+        this._texCoord = v; 
+        this.texCoord32 = new Float32Array(this._texCoord);
+    }
     get source(): HTMLImageElement { return this._source; }
     get isReady(): boolean { return this._isReady; }
     set isReady(v: boolean) { this._isReady = v; }

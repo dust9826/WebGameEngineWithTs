@@ -45,6 +45,24 @@ export class ModelCreator
         ];
     }
 
+    static getSpriteGeometry(): Array<number>
+    {
+        return [
+            -0.5, -0.5,   0,
+             0.5, -0.5,   0,
+            -0.5,  0.5,   0,
+             0.5,  0.5,   0,
+        ];
+    }
+
+    static getSpriteIndices(): Array<number>
+    {
+        return [
+            0, 1, 2,
+            2, 1, 3,
+        ];
+    }
+
     static getCube(): Array<number>
     {
         return [

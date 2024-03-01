@@ -17,11 +17,11 @@ export class PlayerInput extends Component
         
         if(KeyHold(KeyCode.W))
         {
-            dir.z += 1;
+            dir.y += 1;
         }
         if(KeyHold(KeyCode.S))
         {
-            dir.z -= 1;
+            dir.y -= 1;
         }
         if(KeyHold(KeyCode.A))
         {
@@ -33,11 +33,11 @@ export class PlayerInput extends Component
         }
         if(KeyHold(KeyCode.LSHIFT))
         {
-            dir.y -= 1;
+            dir.z -= 1;
         }
         if(KeyHold(KeyCode.SPACE))
         {
-            dir.y += 1;
+            dir.z += 1;
         }
 
         //cameraTransform.position.sum(dir);

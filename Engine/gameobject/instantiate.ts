@@ -82,6 +82,7 @@ export function InstantiateSprite(): GameObject
     obj.name = "SPRITE";
     material.albedo.y = 0;
     transform.scale.mul(100);
-    mesh.poly = ModelCreator.getSquare();
+    mesh.poly = ModelCreator.getSpriteGeometry();
+    mesh.indices = ModelCreator.getSpriteIndices();
     return obj;
 }
