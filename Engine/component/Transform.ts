@@ -34,6 +34,12 @@ export class Transform extends Component
     LateUpdate(): void 
     {
         this.isUpdate = false;
+        // world Position 구하는 함수 만들기
+        const p = this.gameobject.GetParent();
+        if(p !== undefined)
+        {
+            
+        }
     }
 
     getLocalMatrix(): Matrix4x4

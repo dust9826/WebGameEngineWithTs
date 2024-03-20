@@ -27,6 +27,20 @@ export abstract class Scene
         }
     }
 
+    lateupdate()
+    {
+        for(let idx in this.gameObjects)
+        {
+            const objs = this.gameObjects[idx].traverse();
+            for(let i in objs)
+            {
+                objs[i].lateupdate();
+            }
+        }
+
+        // 물체 world position 구하기
+    }
+
     render()
     {
         for(let idx in this.gameObjects)

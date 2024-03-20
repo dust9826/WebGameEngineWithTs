@@ -124,6 +124,8 @@ export class Core
     
     SceneManager.instance.GetCurrentScene().update();
 
+    SceneManager.instance.GetCurrentScene().lateupdate();
+
     EventManager.instance.update();
     
     

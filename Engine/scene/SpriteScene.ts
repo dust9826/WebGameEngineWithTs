@@ -23,10 +23,13 @@ export class SpriteScene extends Scene
         //const coord = InstantiateCoord();
         //ECreateObject(coord, GroupType.PLAYER);
 
-        const c1 = InstantiateSprite();
-        c1.GetComponent(Transform).position.z = 10;
-        c1.GetComponent(Material).albedo.x = 0;
-        ECreateObject(c1, GroupType.PLAYER);
+        const player = InstantiateSprite();
+        player.GetComponent(Transform).position.z = 10;
+        player.GetComponent(Material).albedo.x = 0;
+
+        player.AddComponent(new PlayerInput(), PlayerInput);
+        
+        ECreateObject(player, GroupType.PLAYER);
 
         const sz = 5;
         for(let x=0; x<sz; ++x)
@@ -41,6 +44,7 @@ export class SpriteScene extends Scene
         }
 
         this.mainCamera = InstantiateCamera();
+        player.AddChild(this.mainCamera);
         ECreateObject(this.mainCamera, GroupType.CAMERA);
 
     }
@@ -57,5 +61,7 @@ export class SpriteScene extends Scene
     }
     
     update() {super.update();}
+    lateupdate(): void {super.lateupdate();}
     render() {super.render();}
+
 } 

@@ -36,6 +36,15 @@ export class GameObject {
         }
     }
 
+    lateupdate()
+    {
+        for(let key in this.components)
+        {
+            const component: Component = this.components[key];
+            component.LateUpdate();
+        }
+    }
+
     render()
     {
         if(this.renderer !== null)
